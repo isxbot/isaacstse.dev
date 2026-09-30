@@ -1,0 +1,16 @@
+# Dependencies
+node_modules/
+
+# Astro build output and generated types
+site/dist/
+site/.astro/
+
+# CDK output
+infra/cdk.out/
+
+# Environment and local files
+.env
+.env.*
+!.env.example
+.DS_Store
+*.log

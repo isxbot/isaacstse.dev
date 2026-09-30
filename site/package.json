@@ -1,0 +1,19 @@
+{
+  "name": "isaacstse-site",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@fontsource-variable/source-serif-4": "^5.0.0",
+    "@fontsource/jetbrains-mono": "^5.0.0",
+    "astro": "^5.0.0"
+  }
+}

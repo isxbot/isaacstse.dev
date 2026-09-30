@@ -1,0 +1,44 @@
+---
+// The --theme= toggle. The page follows the visitor's system setting until they
+// click this; their choice is then saved in localStorage for future visits.
+// The matching early script in Base.astro applies the saved choice before the
+// page paints, so there's no flash of the wrong theme.
+//
+// The button starts hidden and is revealed by the script, so visitors without
+// JavaScript never see a button that doesn't work.
+---
+<button type="button" class="theme-toggle" data-theme-toggle hidden>--theme=</button>
+
+<script is:inline>
+  (() => {
+    const root = document.documentElement;
+    const media = window.matchMedia('(prefers-color-scheme: dark)');
+    const current = () => root.dataset.theme || (media.matches ? 'dark' : 'light');
+    const buttons = document.querySelectorAll('[data-theme-toggle]');
+
+    const render = () => {
+      const theme = current();
+      const next = theme === 'dark' ? 'light' : 'dark';
+      buttons.forEach((button) => {
+        button.textContent = `--theme=${theme}`;
+        button.setAttribute('aria-label', `Theme: ${theme}. Switch to ${next} theme`);
+        button.hidden = false;
+      });
+    };
+
+    buttons.forEach((button) =>
+      button.addEventListener('click', () => {
+        const next = current() === 'dark' ? 'light' : 'dark';
+        root.dataset.theme = next;
+        try {
+          localStorage.setItem('theme', next);
+        } catch {}
+        render();
+      }),
+    );
+
+    // Keep the label right if the system setting changes while the page is open.
+    media.addEventListener('change', render);
+    render();
+  })();
+</script>

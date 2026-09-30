@@ -1,0 +1,47 @@
+---
+// One page per note, built from the Markdown files in src/content/notes/.
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { getNotes, formatDate } from '../../notes';
+
+export async function getStaticPaths() {
+  const notes = await getNotes();
+  return notes.map((note) => ({ params: { id: note.id }, props: { note } }));
+}
+
+const { note } = Astro.props;
+const { Content, headings } = await render(note);
+const { title, author, publisher, year, covers, updated } = note.data;
+
+// each "## " heading in the Markdown becomes a contents entry
+const contents = headings.filter((h) => h.depth === 2);
+const source = [author, publisher, year].filter(Boolean).join(', ');
+---
+<Base title={title} description={`Working notes on ${title} by ${author}.`}>
+  <p class="crumb">~/notes/{note.id}</p>
+  <h1>{title}</h1>
+  <p class="meta">
+    {[source, covers, `updated ${formatDate(updated)}`].filter(Boolean).join(' · ')}
+  </p>
+
+  {
+    contents.length > 1 && (
+      <nav class="toc" aria-label="Contents">
+        <p>CONTENTS</p>
+        <ol>
+          {contents.map((h) => (
+            <li>
+              <a href={`#${h.slug}`}>{h.text}</a>
+            </li>
+          ))}
+        </ol>
+      </nav>
+    )
+  }
+
+  <article class="prose">
+    <Content />
+  </article>
+
+  <p class="links back"><a href="/notes/">← all notes</a></p>
+</Base>

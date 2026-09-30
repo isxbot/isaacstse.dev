@@ -1,0 +1,93 @@
+---
+import Base from '../layouts/Base.astro';
+import { site, nav } from '../site';
+import { getNotes, formatDate } from '../notes';
+
+const recent = (await getNotes()).slice(0, 3);
+---
+<Base title="Home" home>
+  <article class="man">
+    <header class="man-head">
+      <span>DILLON(1)</span>
+      <span>Dillon G. Isaacs Tse</span>
+      <span>DILLON(1)</span>
+    </header>
+
+    <section>
+      <h2>NAME</h2>
+      <p>dillon — site reliability and platform engineer</p>
+    </section>
+
+    <section>
+      <h2>SYNOPSIS</h2>
+      <p class="synopsis">
+        <strong>dillon</strong>
+        {nav.map((item) => <a href={item.href}>[--{item.label}]</a>)}
+      </p>
+    </section>
+
+    <section>
+      <h2>DESCRIPTION</h2>
+      <p>
+        <strong>dillon</strong> builds, scales, and automates the infrastructure that keeps software
+        running reliably for its users.
+      </p>
+      <br>
+      <p>Based in {site.location}</p>
+    </section>
+
+    <section>
+      <h2>OPTIONS</h2>
+      <dl class="pairs">
+        {
+          nav.map((item) => (
+            <>
+              <dt>
+                <a href={item.href}>--{item.label}</a>
+              </dt>
+              <dd>{item.summary}</dd>
+            </>
+          ))
+        }
+      </dl>
+    </section>
+
+    <section>
+      <h2>RECENT NOTES</h2>
+      {
+        recent.length > 0 ? (
+          <ul class="dated">
+            {recent.map((note) => (
+              <li>
+                <time datetime={formatDate(note.data.updated)}>{formatDate(note.data.updated)}</time>
+                <a href={`/notes/${note.id}/`}>{note.data.title}</a>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p class="muted">None yet.</p>
+        )
+      }
+    </section>
+
+    <section>
+      <h2>AUTHOR</h2>
+      <div class="author">
+        <img class="photo" src="/photo.png" alt="Dillon G. Isaacs Tse" width="96" height="96" />
+        <p>{site.name} &lt;<a href={`mailto:${site.email}`}>{site.email}</a>&gt;</p>
+      </div>
+    </section>
+
+    <!-- TODO: add bugs section to include discussions of incidents
+    <section>
+      <h2>BUGS</h2>
+      <p>site went down :(</p>
+    </section>
+    -->
+
+    <section>
+      <h2>SEE ALSO</h2>
+      <p><a href={site.github}>github(1)</a>, <a href={site.linkedin}>linkedin(1)</a></p>
+    </section>
+  </article>
+</Base>

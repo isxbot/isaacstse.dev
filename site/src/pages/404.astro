@@ -1,0 +1,19 @@
+---
+// Built to 404.html. CloudFront will be configured to serve this for missing pages.
+import Base from '../layouts/Base.astro';
+---
+<Base title="Not found">
+  <div class="man">
+    <p>$ man <span id="missing">this-page</span></p>
+    <p>No manual entry for <span id="missing-again">this page</span>.</p>
+    <p>Try <a href="/">dillon(1)</a>.</p>
+  </div>
+  <script is:inline>
+    // Show the path the visitor actually asked for. Uses textContent, so it's safe with any URL.
+    (() => {
+      const path = location.pathname.replace(/^\/|\/$/g, '') || 'this-page';
+      document.getElementById('missing').textContent = path;
+      document.getElementById('missing-again').textContent = path;
+    })();
+  </script>
+</Base>
