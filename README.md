@@ -6,9 +6,8 @@ working notes from technical books, and a few small projects.
 | Folder | What's in it |
 |---|---|
 | [`site/`](site/) | The website, built with [Astro](https://astro.build) into static HTML |
-| `infra/` | *(coming next)* AWS CDK stack: Route 53, ACM, S3, CloudFront |
+| `infra/` | AWS CDK stack: Route 53, ACM, S3, CloudFront |
 | `.github/workflows/` | *(coming next)* GitHub Actions pipeline that builds and deploys the site |
-| [`docs/`](docs/) | Planning notes |
 
 ## Run the site locally
 
