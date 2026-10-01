@@ -1,0 +1,81 @@
+name: Build and deploy site
+
+on:
+  push:
+    branches: [main]
+    paths: ['site/**', '.nvmrc', '.github/workflows/deploy.yml']
+  pull_request:
+    paths: ['site/**', '.nvmrc', '.github/workflows/deploy.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: site
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          cache-dependency-path: site/package-lock.json
+
+      - run: npm ci
+      - run: npm run build
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: site
+          path: site/dist
+          retention-days: 7
+
+  deploy:
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://dillon.isaacstse.dev
+    permissions:
+      contents: read
+      id-token: write # lets the job request an OIDC token to assume the AWS role
+    env:
+      SITE_BUCKET: ${{ vars.SITE_BUCKET }}
+      DISTRIBUTION_ID: ${{ vars.DISTRIBUTION_ID }}
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: site
+          path: dist
+
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_DEPLOY_ROLE_ARN }}
+          aws-region: us-east-1
+
+      - name: Upload hashed assets
+        run: |
+          if [ -d dist/_astro ]; then
+            aws s3 sync dist/_astro "s3://$SITE_BUCKET/_astro" \
+              --cache-control "public, max-age=31536000, immutable"
+          fi
+
+      - name: Upload pages
+        run: |
+          aws s3 sync dist "s3://$SITE_BUCKET" --delete --exclude "_astro/*" \
+            --cache-control "public, max-age=0, must-revalidate"
+
+      - name: Invalidate CloudFront cache
+        run: |
+          aws cloudfront create-invalidation --distribution-id "$DISTRIBUTION_ID" --paths "/*" \
+            --query 'Invalidation.Id' --output text
