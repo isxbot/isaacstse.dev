@@ -66,17 +66,10 @@ message if a required field is missing or misspelled.
 **Hide a note that isn't ready.** Set `draft: true`. It still shows in `npm run dev` (marked as
 a draft) but is left out of the production build.
 
-**Add your photo.** Save it as `public/photo.jpg` (square, at least 192×192 px), then follow the
-TODO comment in `src/pages/index.astro`.
-
-**Add your resume PDF.** Save it as `public/resume.pdf`. The resume page already links to it.
-
 **Add a page (Projects, Library).** Create `src/pages/projects.astro` using `colophon.astro` as a
 template, then add it to the `nav` list in `src/site.ts`. It appears in the top bar and as a flag
 on the homepage automatically.
 
-**Change colors or fonts.** Everything is in `src/styles/global.css`. The light and dark colors are
-the variables at the top of the file.
 
 ## How the theme toggle works
 
