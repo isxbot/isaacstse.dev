@@ -1,13 +1,12 @@
 # isaacstse.dev
 
-Source for [dillon.isaacstse.dev](https://dillon.isaacstse.dev), my personal site: a resume,
-working notes from technical books, and a few small projects.
+Source for [dillon.isaacstse.dev](https://dillon.isaacstse.dev), my personal site.
 
 | Folder | What's in it |
 |---|---|
 | [`site/`](site/) | The website, built with [Astro](https://astro.build) into static HTML |
-| `infra/` | AWS CDK stack: Route 53, ACM, S3, CloudFront |
-| `.github/workflows/` | *(coming next)* GitHub Actions pipeline that builds and deploys the site |
+| [`infra/`](infra/) | AWS CDK stack: Route 53, ACM, S3, CloudFront |
+| [`.github/workflows/`](.github/workflows/) | GitHub Actions pipeline that builds and deploys the site |
 
 ## Run the site locally
 
