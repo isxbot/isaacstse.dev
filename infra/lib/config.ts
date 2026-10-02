@@ -19,6 +19,9 @@ export const config = {
   zoneName: 'isaacstse.dev',
   siteSubdomain: 'dillon',
   githubRepo: 'isxbot/isaacstse.dev',
+  // GitHub OIDC "immutable subject" prefix: owner and repo with their numeric IDs.
+  // From `gh api repos/isxbot/isaacstse.dev/actions/oidc/customization/sub`
+  githubSubjectPrefix: 'repo:isxbot@33079801/isaacstse.dev@1398613139',
   githubEnvironment: 'production',
   existingGithubOidcProviderArn: undefined as string | undefined,
   alertEmail: 'dillon@isaacstse.dev',

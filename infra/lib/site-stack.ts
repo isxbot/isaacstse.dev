@@ -137,7 +137,7 @@ export class SiteStack extends Stack {
       assumedBy: new iam.WebIdentityPrincipal(githubOidc.openIdConnectProviderArn, {
         StringEquals: {
           'token.actions.githubusercontent.com:aud': 'sts.amazonaws.com',
-          'token.actions.githubusercontent.com:sub': `repo:${config.githubRepo}:environment:${config.githubEnvironment}`,
+          'token.actions.githubusercontent.com:sub': `${config.githubSubjectPrefix}:environment:${config.githubEnvironment}`,
         },
       }),
     });
