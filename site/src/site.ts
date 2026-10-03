@@ -12,6 +12,6 @@ export const site = {
 
 export const nav = [
   { href: '/resume/', label: 'resume', summary: 'Experience, skills, and a PDF copy.' },
-  { href: '/notes/', label: 'notes', summary: "Working notes from books I'm reading." },
+  // { href: '/notes/', label: 'notes', summary: "Working notes from books I'm reading." },
   { href: '/colophon/', label: 'colophon', summary: 'How this site is built: Astro, CDK, S3, CloudFront.' },
 ];
