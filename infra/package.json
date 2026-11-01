@@ -12,13 +12,13 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "aws-cdk-lib": "^2.170.0",
+    "aws-cdk-lib": "^2.275.0",
     "constructs": "^10.0.0"
   },
   "devDependencies": {
-    "@types/node": "^22.0.0",
-    "aws-cdk": "^2.1000.0",
+    "@types/node": "^26.6.6",
+    "aws-cdk": "^2.1146.1",
     "tsx": "^4.0.0",
-    "typescript": "^5.0.0"
+    "typescript": "^7.0.2"
   }
 }
